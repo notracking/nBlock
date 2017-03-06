@@ -1,0 +1,39 @@
+Prerequisites:
+ - Modify debian squid3 package with ssl and ecap options
+ - install newly generate pkg manually
+ - apt-get install libecap3 libecap3-dev npm cmake
+
+Compiling source: 
+git clone https://github.com/notracking/nBlock.git
+cd nBlock/src
+npm install ad-block
+cd ../build
+cmake ..
+make
+sudo make install
+
+Setup squid:
+ - Generate a new cert + private key:
+ - TODO: make a script to do this + blacklist unsafe ssl options
+ - edit /etc/squid/squid.conf:
+# ==================================================================
+http_port 0.0.0.0:3128 ssl-bump cert=/location/to.cert key=/location/to.private generate-host-certificates=on version=1 options=NO_SSLv2,NO_SSLv3,SINGLE_DH_USE  
+https_port 0.0.0.0:3130 cert=/location/to.cert key=/location/to.private ssl-bump intercept generate-host-certificates=on version=1 options=NO_SSLv2,NO_SSLv3,SINGLE_DH_USE
+
+acl broken_sites dstdomain somebankingsite.com
+ssl_bump none broken_sites
+ssl_bump client-first all
+
+ecap_enable on
+loadable_modules /usr/local/lib/nblock_ecap_adapter.so
+ecap_service ecapRequest reqmod_precache uri=ecap://nBlock/ecap/services/?mode=CLIENT_REQUEST_MODE \
+		cache=10000 \
+		list_hostnames=/path/to/hostnames.txt \
+		list_domains=/path/to/domains.txt \
+		list_adblockplus=/path/to/easylist.txt
+
+ecap_service ecapResponse respmod_precache uri=ecap://nBlock/ecap/services/?mode=SERVER_RESPONSE_MODE
+
+adaptation_access ecapRequest allow all
+adaptation_access ecapResponse allow all
+# ==================================================================

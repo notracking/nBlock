@@ -144,7 +144,7 @@ void Adapter::Service::setOne(const libecap::Name &name, const libecap::Area &va
 		{
 			NetFilterDns::getInstance().localCacheSize = std::stoi(value);
 			NetFilterAdblock::getInstance().localCacheSize = std::stoi(value);
-			Debugger(ilNormal | flApplication) << "[nBlock] Cache: " << std::to_string(std::stoi(value) << " entries");
+			Debugger(ilNormal | flApplication) << "[nBlock] Cache: " << std::to_string(std::stoi(value)) << " entries";
 		}
 		catch (...)
 		{

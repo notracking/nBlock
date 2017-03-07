@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.7)
 project(nblock_ecap_adapter)
 
+add_definitions(-DPACKAGE_NAME="\\"nBlock\ ecap\ adapter\\"")
+add_definitions(-DPACKAGE_VERSION="\\"0.01\\"")
+
 # Set the output folder where your program will be created
 set(MODDIR "/usr/local/lib/")
 set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/build)
@@ -17,8 +20,20 @@ include_directories("/usr/include/nodejs/deps/v8/include/")
 include_directories("src/node_modules/ad-block/node_modules/bloom-filter-cpp")
 include_directories("src/node_modules/ad-block/node_modules/hashset-cpp")
 
+set(CMAKE_CPP_FLAGS "${CMAKE_CPP_FLAGS} -std=c++11 -stdlib=libc++ -v") 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC") 
+
 file(GLOB SOURCES "src/node_modules/ad-block/*.cc")
-add_library("ad-block" STATIC ${SOURCES})
+add_library("ad-block" STATIC 
+  src/node_modules/ad-block/addon.cc
+  src/node_modules/ad-block/ad_block_client_wrap.cc
+  src/node_modules/ad-block/ad_block_client.cc
+  src/node_modules/ad-block/cosmetic_filter.cc
+  src/node_modules/ad-block/filter.cc
+  src/node_modules/ad-block/node_modules/bloom-filter-cpp/BloomFilter.cpp
+  src/node_modules/ad-block/node_modules/bloom-filter-cpp/hashFn.cpp
+  src/node_modules/ad-block/node_modules/hashset-cpp/HashSet.cpp
+)
 
 ############################################################
 #                     ecap Adapter                         #
@@ -39,7 +54,8 @@ IF(NOT LIBECAP_FOUND)
   IF(NOT LIBECAP)
   message(FATAL_ERROR "
   The ECAP library is required to build nBlock.
-  The latest version is available at http://www.e-cap.org/."
+  The latest version is available at http://www.e-cap.org/.
+  For debian 'sudo apt-get install libecap3'"
   )
   ENDIF()
   set(LIBECAP_LDFLAGS "-lecap")
@@ -51,11 +67,11 @@ ELSE()
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DLIBECAP_VERSION=\\\"${LIBECAP_VERSION}\\\"")
 ENDIF()
 
-set ( PROJECT_LINK_LIBS ad-block.a )
-link_directories( bin/ )
+set ( LIBADBLOCK_LINK_LIB ad-block )
+link_directories( build/ )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "")
-target_link_libraries(${PROJECT_NAME} ${LIBECAP_LDFLAGS} ${PROJECT_LINK_LIBS})
+target_link_libraries(${PROJECT_NAME} ${LIBECAP_LDFLAGS} ${LIBADBLOCK_LINK_LIB})
 include_directories(${LIBECAP_INCLUDE_DIRS})
 
 INSTALL(TARGETS ${PROJECT_NAME} DESTINATION ${MODDIR})

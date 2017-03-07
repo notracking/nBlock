@@ -16,9 +16,6 @@
 #include <libecap/host/xaction.h>
 #include <chrono> // for measuring execution time
 
-#define PACKAGE_NAME "nBlock ecap adapter"
-#define PACKAGE_VERSION "0.01 alpha"
-
 namespace Adapter { // not required, but adds clarity
 
 class Service: public libecap::adapter::Service {

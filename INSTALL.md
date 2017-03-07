@@ -1,4 +1,4 @@
-# Installation guide for Debian
+# How to install nBlock
 This installation guide will help you setting up a development build for nBlock. It includes all operations that have to be performed on a freshly installed Debian Stretch installation to get nBlock up and running.
 
 - Download Debian 'stretch' release from: https://www.debian.org/CD/http-ftp/

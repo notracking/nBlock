@@ -1,5 +1,5 @@
-#ifndef DEBUGGER_H
-#define DEBUGGER_H
+#ifndef ECAP_NBLOCK_DEBUGGER_H
+#define ECAP_NBLOCK_DEBUGGER_H
 
 #include <libecap/common/log.h>
 #include <iosfwd>
@@ -10,9 +10,6 @@ using libecap::flXaction;
 using libecap::flApplication;
 using libecap::mslLarge;
 
-// TODO: rename to Log
-
-// libecap::host::openDebug/closeDebug calls wrapper for safety and convenience
 class Debugger {
 	public:
 		explicit Debugger(const libecap::LogVerbosity lv); // opens

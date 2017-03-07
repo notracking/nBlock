@@ -23,7 +23,6 @@ include_directories("src/node_modules/ad-block/node_modules/hashset-cpp")
 set(CMAKE_CPP_FLAGS "${CMAKE_CPP_FLAGS} -std=c++11 -stdlib=libc++ -v") 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC") 
 
-file(GLOB SOURCES "src/node_modules/ad-block/*.cc")
 add_library("ad-block" STATIC 
   src/node_modules/ad-block/addon.cc
   src/node_modules/ad-block/ad_block_client_wrap.cc
@@ -67,11 +66,12 @@ ELSE()
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DLIBECAP_VERSION=\\\"${LIBECAP_VERSION}\\\"")
 ENDIF()
 
+include_directories(${LIBECAP_INCLUDE_DIRS})
+
 set ( LIBADBLOCK_LINK_LIB ad-block )
 link_directories( build/ )
-
 set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "")
+
 target_link_libraries(${PROJECT_NAME} ${LIBECAP_LDFLAGS} ${LIBADBLOCK_LINK_LIB})
-include_directories(${LIBECAP_INCLUDE_DIRS})
 
 INSTALL(TARGETS ${PROJECT_NAME} DESTINATION ${MODDIR})

@@ -122,6 +122,8 @@ adaptation_access ecapResponse allow all
 Now you can start Squid with `sudo squid -N -d3`
 
 # Client installation
+Configure you browsers http(s) proxy to point the the server running Squid with nBlock (port 2244).
+
 Since we are basically doing a man-in-the-middle attack on the clients of our trusted network we need them to install our previously generated root certificate (/etc/squid/ssl/squidCA.der) in order to avoid breaking down https sites.
 
 ##For FireFox:

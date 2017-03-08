@@ -1,7 +1,7 @@
 # How to install nBlock
 This installation guide will help you setting up a development build for nBlock. It includes all operations that have to be performed on a freshly installed Debian Stretch installation to get nBlock up and running.
 
-- Download Debian 'stretch' (currently 'testing')
+- Download Debian 'Jessie' release: [https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-8.7.1-amd64-netinst.iso](amd64 netinstall ISO)
 - Install on a VM ([VirtualBox](https://www.virtualbox.org/wiki/Downloads)) or anywhere else
 - login with your normal (not root) account and setup sudo (in case you are not familiar on how to do this..):
 ```
@@ -11,13 +11,21 @@ apt-get install sudo
 pico /etc/sudoers
 exit
 ```
+- Change apt sources to the current testing release ('stretch'). This is required for using libeCAP3 (1.0.0); alternatively you can also build libECAP from [source](http://www.e-cap.org/Downloads) if you choose to stay on Debian 'Jessie' release
+```
+sudo sed -i 's/jessie/stretch/g' /etc/apt/sources.list
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get dist-upgrade
+sudo apt-get autoremove
+```
 
-Install required packages
+- Install required packages
 ```
 sudo apt-get install libecap3 libecap3-dev npm node-gyp cmake pkg-config gcc autoconf automake make wget libssl-dev git
 ```
 
-Since the default Debian Squid package does not come precompiled with SSL bumping capabilities we have to build it from source.
+- Since the default Debian Squid package does not come precompiled with SSL bumping capabilities we have to build it from source.
 ```
 cd ~
 SQUID_ARCHIVE=http://www.squid-cache.org/Versions/v3/3.5/squid-3.5.13.tar.gz
@@ -46,7 +54,7 @@ make
 sudo make install
 ```
 
-Completing Squid installation by adding the default 'squid' user, setting local file permissions and generating the ssl database for ssl_crtd
+- Completing Squid installation by adding the default 'squid' user, setting local file permissions and generating the ssl database for ssl_crtd
 ```
 groupadd squid
 adduser squid --disabled-password --disabled-login --ingroup squid --no-create-home -q --gecos NA
@@ -58,7 +66,7 @@ sudo chmod 640 /etc/squid/squid.conf
 sudo /usr/lib64/squid/ssl_crtd -c -s /var/log/squid/ssl_db
 ```
 
-Building nBlock and its dependencies from source
+- Building nBlock and its dependencies from source
 ```
 cd ~
 git clone https://github.com/notracking/nBlock.git
@@ -70,7 +78,7 @@ make
 sudo make install
 ```
 
-Download some example blocklists
+- Download some example blocklists
 ```
 sudo mkdir /etc/squid/nblock/
 sudo wget https://raw.githubusercontent.com/notracking/hosts-blocklists/master/hostnames.txt -O /etc/squid/nblock/hostnames.txt
@@ -78,7 +86,7 @@ sudo wget https://raw.githubusercontent.com/notracking/hosts-blocklists/master/d
 sudo wget https://raw.githubusercontent.com/easylist/easylist/master/easylist/easylist_general_block.txt -O /etc/squid/nblock/easylist_general_block.txt
 ```
 
-Generate self signed certificates for SSL bumping
+- Generate self signed certificates for SSL bumping
 ```
 sudo mkdir /etc/squid/ssl
 cd /etc/squid/ssl
@@ -87,12 +95,12 @@ sudo chmod 700 /etc/squid/ssl
 sudo openssl req -new -newkey rsa:2048 -sha256 -days 365 -nodes -x509 -extensions v3_ca -keyout squidCA.pem  -out squidCA.pem -subj "/C=XX/ST=XX/L=squid/O=squid/CN=squid"
 ```
 
-And generate a .der file that the clients should install to avoid getting SSL errors
+- Generate a .der file that the clients should install to avoid getting SSL errors
 ```
 sudo openssl x509 -in squidCA.pem -outform DER -out squidCA.der
 ```
 
-Add the following lines to the bottom of your squid configuration file `sudo pico /etc/squid/squid.conf`
+- Add the following lines to the bottom of your squid configuration file `sudo pico /etc/squid/squid.conf`
 ```
 # To generate domain matching certs on the fly. Default settings should be adjusted for high traffic proxies
 sslcrtd_program /usr/lib64/squid/ssl_crtd -s /var/log/squid/ssl_db -M 4MB
@@ -119,7 +127,7 @@ adaptation_access ecapRequest allow all
 adaptation_access ecapResponse allow all
 ```
 
-Now you can start Squid with `sudo squid -N -d3`
+- Now you can start Squid with `sudo squid -N -d3`
 
 # Client installation
 Configure you browsers http(s) proxy to point the the server running Squid with nBlock (port 2244).

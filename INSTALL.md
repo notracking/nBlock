@@ -1,7 +1,7 @@
 # How to install nBlock
 This installation guide will help you setting up a development build for nBlock. It includes all operations that have to be performed on a freshly installed Debian Stretch installation to get nBlock up and running.
 
-- Download Debian 'stretch' release from: https://www.debian.org/CD/http-ftp/
+- Download Debian 'stretch' (currently 'testing')
 - Install on a VM ([VirtualBox](https://www.virtualbox.org/wiki/Downloads)) or anywhere else
 - login with your normal (not root) account and setup sudo (in case you are not familiar on how to do this..):
 ```

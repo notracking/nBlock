@@ -1,7 +1,7 @@
 # How to install nBlock
 This installation guide will help you setting up a development build for nBlock. It includes all operations that have to be performed on a freshly installed Debian Stretch installation to get nBlock up and running.
 
-- Download Debian 'Jessie' release: [https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-8.7.1-amd64-netinst.iso](amd64 netinstall ISO)
+- Download Debian 'Jessie' release: [amd64 netinstall ISO](https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-8.7.1-amd64-netinst.iso)
 - Install on a VM ([VirtualBox](https://www.virtualbox.org/wiki/Downloads)) or anywhere else
 - login with your normal (not root) account and setup sudo (in case you are not familiar on how to do this..):
 ```

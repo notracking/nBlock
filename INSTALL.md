@@ -56,12 +56,12 @@ sudo make install
 
 - Completing Squid installation by adding the default 'squid' user, setting local file permissions and generating the ssl database for ssl_crtd
 ```
-groupadd squid
-adduser squid --disabled-password --disabled-login --ingroup squid --no-create-home -q --gecos NA
+sudo groupadd squid
+sudo adduser squid --disabled-password --disabled-login --ingroup squid --no-create-home -q --gecos NA
 sudo chown -R squid:squid /var/log/squid /var/cache/squid
 sudo chmod 750 /var/log/squid /var/cache/squid
 sudo touch /etc/squid/squid.conf
-sudo chown -R root:squid /etc/squid/squid.conf
+sudo chown root:squid /etc/squid/squid.conf
 sudo chmod 640 /etc/squid/squid.conf
 sudo /usr/lib64/squid/ssl_crtd -c -s /var/log/squid/ssl_db
 ```

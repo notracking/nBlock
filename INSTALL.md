@@ -11,7 +11,7 @@ apt-get install sudo
 pico /etc/sudoers
 exit
 ```
-- Change apt sources to the current testing release ('stretch'). This is required for using libeCAP3 (1.0.0); alternatively you can also build libECAP from [source](http://www.e-cap.org/Downloads) if you choose to stay on Debian 'Jessie' release
+- Change apt sources to the current testing release ('stretch') and perform a dist-upgrade. The 'Stretch' is required for using libeCAP3 (1.0.0); alternatively you can also build libECAP from [source](http://www.e-cap.org/Downloads) if you want to stay on the Debian 'Jessie' release.
 ```
 sudo sed -i 's/jessie/stretch/g' /etc/apt/sources.list
 sudo apt-get update

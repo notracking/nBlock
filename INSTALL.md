@@ -22,7 +22,7 @@ sudo apt-get autoremove
 
 - Install required packages
 ```
-sudo apt-get install libecap3 libecap3-dev npm nodejs-dev cmake pkg-config gcc autoconf automake make wget libssl-dev git
+sudo apt-get install libecap3 libecap3-dev npm nodejs-dev cmake pkg-config gcc autoconf automake make wget libssl1.0-dev git
 ```
 
 - Since the default Debian Squid package does not come precompiled with SSL bumping capabilities we have to build it from source.

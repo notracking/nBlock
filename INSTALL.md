@@ -1,24 +1,7 @@
 # How to install nBlock
-This installation guide will help you setting up a development build for nBlock. It includes all operations that have to be performed on a freshly installed Debian Stretch installation to get nBlock up and running.
+This installation guide will help you setting up a development build for nBlock.
 
-- Download Debian 'Jessie' release: [amd64 netinstall ISO](https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-8.7.1-amd64-netinst.iso)
-- Install on a VM ([VirtualBox](https://www.virtualbox.org/wiki/Downloads)) or anywhere else
-- login with your normal (not root) account and setup sudo (in case you are not familiar on how to do this..):
-```
-su
-apt-get update
-apt-get install sudo
-pico /etc/sudoers
-exit
-```
-- Change apt sources to the current testing release ('stretch') and perform a dist-upgrade. The 'Stretch' is required for using libeCAP3 (1.0.0); alternatively you can also build libECAP from [source](http://www.e-cap.org/Downloads) if you want to stay on the Debian 'Jessie' release.
-```
-sudo sed -i 's/jessie/stretch/g' /etc/apt/sources.list
-sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get dist-upgrade
-sudo apt-get autoremove
-```
+At this moment nBlock requires Debian Stretch (testing) to be installed, because it depends on libecap3 (1.0.0). However it is possible to build nBlock for older Debian versions if you simply build [libecap](http://www.e-cap.org/Downloads) 1.0.0 from source.
 
 - Install required packages
 ```
